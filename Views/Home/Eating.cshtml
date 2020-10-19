@@ -1,0 +1,17 @@
+﻿@model List<Etkezde.Models.EmployeeConsumption>
+
+@{
+    ViewData["Title"] = "Dolgozói fogyasztások";
+}
+<h1>@ViewData["Title"]</h1>
+
+<p>A dolgozók fogyasztása az aktuális hónapban.</p>
+
+<ul>
+@foreach (var dolgozo in Model)
+{
+    <li>
+        @dolgozo.EmployeeId @dolgozo.Name @dolgozo.CostOfConsumption
+    </li>
+}
+</ul>
