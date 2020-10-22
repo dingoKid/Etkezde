@@ -16,6 +16,7 @@ namespace Etkezde.Controllers
         private readonly FoodRepository _foodRepository;
         private readonly SqliteConnectionStringBuilder connectionStringBuilder = new SqliteConnectionStringBuilder();  
         private readonly string _connectionString;
+        private static int empID;
 
         public HomeController()
         {
@@ -24,10 +25,26 @@ namespace Etkezde.Controllers
             _foodRepository = new FoodRepository(_connectionString);
         }
 
+        [Route("/")]
+        [HttpGet]
         public IActionResult Index()
         {
+            var obj = new OrderItemViewModel();
+            return View(obj);
+        }
 
-            return View();
+        [HttpPost]
+        public IActionResult Index(int emloyeeid)
+        {
+            empID = emloyeeid;
+            return Content(empID.ToString());
+        }
+
+        [HttpPost]
+        public IActionResult Index(OrderItemViewModel model)
+        {
+            if(model.Id == null) return View(model);
+            return Content(model.ItemName.ToString());
         }
 
         [HttpGet]

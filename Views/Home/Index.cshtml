@@ -1,8 +1,45 @@
-﻿@{
+﻿@model Etkezde.Models.OrderItemViewModel
+
+@{
     ViewData["Title"] = "Zabálj ingyen!";
 }
 
 <div class="text-center">
     <h1 class="display-4">Kajálda</h1>
+
+    <div class="row">
+        <!-- using (var form = Html.BeginForm()) -->
+        
+            <form method="POST" asp-controller="Home" asp-action="Index" asp-route-id="@Model.Id">
+            <label for="@Model.Id">Id</label>
+            <input type="text" id="Id" />
+            <input type="submit" />
+            </form> 
+
+        <!--   
+            <div class="col-sm-3">
+                <div class="form-for-id">
+                    @Html.LabelFor(m => m.Id)
+                    @Html.TextBoxFor(m =>m.Id)
+                    <input type="submit" value="OK" />
+                </div>
+            </div>
+        -->
+
+        @using (var form = Html.BeginForm())
+        {
+            <div class="col-sm-3">
+                @Html.LabelFor(m =>m.ItemName)
+                @Html.TextBoxFor(m =>m.ItemName)
+
+                @Html.LabelFor(m =>m.Quantity)
+                @Html.TextBoxFor(m =>m.Quantity)
+                <input type="submit" value="OK" />
+            </div>
+        }    
+    </div>  
+    
+
+    
 
 </div>
