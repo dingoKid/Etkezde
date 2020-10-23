@@ -7,21 +7,22 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Etkezde.Models;
 using Etkezde.Database;
-using Microsoft.Data.Sqlite;
+using System.Data.SQLite;
 
 namespace Etkezde.Controllers
 {
     public class HomeController : Controller
     {
         private readonly FoodRepository _foodRepository;
-        private readonly SqliteConnectionStringBuilder connectionStringBuilder = new SqliteConnectionStringBuilder();  
-        private readonly string _connectionString;
-        private static int empID;
+        private readonly SQLiteConnectionStringBuilder _connectionStringBuilder = new SQLiteConnectionStringBuilder();  
+        private readonly string _connectionString;        
+        private static OrderItemViewModel OrderItem = new OrderItemViewModel();
+        private static List<Tuple<string, int>> _basket = new List<Tuple<string, int>>();
 
         public HomeController()
         {
-            connectionStringBuilder.DataSource = "./Database/memory.db";
-            _connectionString = connectionStringBuilder.ConnectionString;
+            _connectionStringBuilder.DataSource = "./Database/memory.db";
+            _connectionString = _connectionStringBuilder.ConnectionString;
             _foodRepository = new FoodRepository(_connectionString);
         }
 
@@ -29,22 +30,37 @@ namespace Etkezde.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var obj = new OrderItemViewModel();
-            return View(obj);
-        }
-
-        [HttpPost]
-        public IActionResult Index(int emloyeeid)
-        {
-            empID = emloyeeid;
-            return Content(empID.ToString());
+            ViewBag.Basket = _basket;
+            return View(OrderItem);
         }
 
         [HttpPost]
         public IActionResult Index(OrderItemViewModel model)
         {
-            if(model.Id == null) return View(model);
-            return Content(model.ItemName.ToString());
+            if(!GetEmployeeIdsFromDatabase().Contains(model.EmployeeId.GetValueOrDefault()) || model.EmployeeId == null)
+            {
+                foreach(var item in GetEmployeeIdsFromDatabase())
+                {
+                    System.Console.WriteLine(item);
+                }
+            }
+            OrderItem.EmployeeName = _foodRepository.GetEmployeeName(model.EmployeeId.GetValueOrDefault()); // VALIDÁLNI KELL, HGOY VAN-E ILYEN ID
+            OrderItem.EmployeeId = model.EmployeeId;
+            return View(OrderItem);
+        }
+
+        private List<int> GetEmployeeIdsFromDatabase()
+        {
+            return _foodRepository.GetEmployeeIds();            
+        }
+
+        public IActionResult OnPostOrderItems(OrderItemViewModel model)
+        {
+            ViewBag.Basket = _basket;
+            OrderItem.ItemName = model.ItemName;
+            OrderItem.Quantity = model.Quantity;
+            _basket.Add(Tuple.Create(OrderItem.ItemName, OrderItem.Quantity.GetValueOrDefault()));
+            return RedirectToAction("Index", OrderItem);
         }
 
         [HttpGet]
