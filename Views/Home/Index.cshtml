@@ -6,53 +6,102 @@
 
 <div class="text-center">
     <h1 class="display-4">Kajálda</h1>
-
-        <div class="Name">
+        
+        <div class="container pt-3">
+            <div class="row">
+                <div class="col-3">
+                    @if(string.IsNullOrEmpty(Model.EmployeeName))                        
+                    {
+                        <div class="alert alert-primary">
+                            Add meg a dolgozo azonositojat!
+                        </div>
+                    }
+                </div>
+                <div class="col-3">
                     @if(!string.IsNullOrEmpty(Model.EmployeeName))
                     {
-                            <div class="alert alert-primary">
-                                @Model.EmployeeName
-                            </div>
+                        <div class="alert alert-primary">
+                            Add meg a termeket es a mennyiseget!
+                        </div>
                     }
-                    else
-                    {
-                        <div>KD</div>
-                    }
-        </div>
+                </div>
+            </div>
 
-        <div class="row">
-            <div class="col">
-                <form method="POST" asp-controller="Home" asp-action="Index">
-                        <label asp-for="EmployeeId">Employee Id</label>
-                        <input asp-for="EmployeeId" />
-                        <input type="submit" />
-                </form>
-                
+            <div class="row">
+                <div class="col-3">
+                    <div class="Fejlec">
+                        <!-- -->
+                    </div>
 
-                <h4>Etelek</h4>
+                    <div class="form">
+                        <form method="POST" asp-controller="Home" asp-action="Index">
+                                <label asp-for="EmployeeId">Employee Id</label>
+                                <input asp-for="EmployeeId" value="@Model.EmployeeName"/>
+                                <input type="submit" value="OK"/>
+                        </form>
+                    </div>
+                                    
+                </div>
+            
+                <div class="col-3">
+                    <div class="Fejlec">
+                        
+                    </div>
+
+                    <div class="form">
+                        <form method="POST" asp-controller="Home" asp-action="OnPostOrderItems">
+                            <label asp-for="ItemName">Termek</label>
+                            <input asp-for="ItemName" />
+                            <br />
+                            <label asp-for="Quantity">Mennyiseg</label>
+                            <input asp-for="Quantity" value="" />
+
+                            <input type="submit" value="Bevitel" />
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-3">
+                    <div class="form">
+                        <form method="POST" asp-controller="Home" asp-action="OnPostModifyItem">
+                            <label asp-for="ItemName">Termek</label>
+                            <input asp-for="ItemName" />
+                            <br />
+                            <label asp-for="Quantity">Mennyiseg</label>
+                            <input asp-for="Quantity" value="" />
+
+                            <input type="submit" value="Levonas" />
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-3">
+                    <div class="form">
+                        <form method="POST" asp-controller="Home" asp-action="OnPostDeleteItem">
+                            <label asp-for="ItemName">Termek</label>
+                            <input asp-for="ItemName" />
+
+                            <input type="submit" value="Torles" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="Etelek">
+                <p>Etelek</p>
                 <div class="itemek">
                     <ul>
                     @if(ViewBag.Basket != null)
                     {
-                        foreach (var item in ViewBag.Basket)
+                        foreach (KeyValuePair<string, int> item in ViewBag.Basket)
                         {
-                            <li>@item.Item1 @item.Item2</li>
+                            <li>@item.Key @item.Value</li>
                         }
                     }
                     </ul>
                 </div>
-            </div>
-           
-            <div class="col">
-                <form method="POST" asp-controller="Home" asp-action="OnPostOrderItems">
-                    <label asp-for="ItemName">Termek</label>
-                    <input asp-for="ItemName" />
-
-                    <label asp-for="Quantity">Mennyiseg</label>
-                    <input asp-for="Quantity" />
-
-                    <input type="submit" />
-                </form>
+                <input type="button" value="Fizet" onclick="location.href='@Url.Action("OnPostFinishShopping", "Home")'" />
+                <input type="button" value="Torol" onclick="location.href='@Url.Action("OnPostClearBasket", "Home")'" />
             </div>
         </div>
 </div>

@@ -1,0 +1,28 @@
+create table Dolgozo (
+Id integer primary key autoincrement,
+Nev char(50) NOT NULL
+);
+
+create table Termek (
+Nev char(50) primary key,
+Ar integer NOT NULL
+);
+
+create table Ertekesites (
+Id integer primary key autoincrement,
+Datum char(10),
+Vegosszeg integer,
+Dolgozo_id integer,
+CONSTRAINT fk_Dolgozo
+FOREIGN KEY (Dolgozo_id)
+REFERENCES Dolgozo(ID)
+);
+
+create table Tetel (
+Datum char(10),
+Termek_nev char(50),
+Mennyiseg integer,
+CONSTRAINT fk_Termek
+FOREIGN KEY (Termek_nev)
+REFERENCES Termek(nev)
+);

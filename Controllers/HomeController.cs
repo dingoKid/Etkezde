@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Etkezde.Models;
 using Etkezde.Database;
 using System.Data.SQLite;
@@ -17,7 +14,7 @@ namespace Etkezde.Controllers
         private readonly SQLiteConnectionStringBuilder _connectionStringBuilder = new SQLiteConnectionStringBuilder();  
         private readonly string _connectionString;        
         private static OrderItemViewModel OrderItem = new OrderItemViewModel();
-        private static List<Tuple<string, int>> _basket = new List<Tuple<string, int>>();
+        private static Dictionary<string, int> _basket = new Dictionary<string, int>();
 
         public HomeController()
         {
@@ -37,16 +34,85 @@ namespace Etkezde.Controllers
         [HttpPost]
         public IActionResult Index(OrderItemViewModel model)
         {
-            if(!GetEmployeeIdsFromDatabase().Contains(model.EmployeeId.GetValueOrDefault()) || model.EmployeeId == null)
+            if(!IsValidNumber(model.EmployeeId ??= "0") || !GetEmployeeIdsFromDatabase().Contains(int.Parse(model.EmployeeId)))
             {
-                foreach(var item in GetEmployeeIdsFromDatabase())
-                {
-                    System.Console.WriteLine(item);
-                }
+                return View(OrderItem);
             }
-            OrderItem.EmployeeName = _foodRepository.GetEmployeeName(model.EmployeeId.GetValueOrDefault()); // VALIDÁLNI KELL, HGOY VAN-E ILYEN ID
+            OrderItem.EmployeeName = _foodRepository.GetEmployeeName(int.Parse(model.EmployeeId));
             OrderItem.EmployeeId = model.EmployeeId;
             return View(OrderItem);
+        }       
+
+        public IActionResult OnPostOrderItems(OrderItemViewModel model)
+        {
+            if(!string.IsNullOrEmpty(OrderItem.EmployeeId) && GetMenuCardFromDatabase().ContainsKey(model.ItemName ??= "") && IsValidNumber(model.Quantity ??= "0"))
+            {
+                ViewBag.Basket = _basket;
+                OrderItem.ItemName = model.ItemName;
+                OrderItem.Quantity = model.Quantity;
+                UpdateBasket(OrderItem.ItemName, int.Parse(OrderItem.Quantity));
+            }            
+            return RedirectToAction("Index", OrderItem);
+        }        
+
+        public IActionResult OnPostModifyItem(OrderItemViewModel model)
+        {
+            if(_basket.Keys.Contains(model.ItemName ??= "") && IsValidNumber(model.Quantity ??= "0")) UpdateBasket(model.ItemName, int.Parse(model.Quantity)*(-1));
+            return RedirectToAction("Index", OrderItem);
+        }
+
+        public IActionResult OnPostDeleteItem(OrderItemViewModel model)
+        {
+            if(_basket.Keys.Contains(model.ItemName ??= "")) _basket.Remove(model.ItemName);
+            return RedirectToAction("Index", OrderItem);
+        }
+
+        public IActionResult OnPostFinishShopping()
+        {
+            if(_basket.Count != 0)
+            {
+                SaveBasketToDatabase(_basket);
+                //SaveConsumptionToDatabase(new EmployeeConsumption(int.Parse(OrderItem.EmployeeId), CalculateTotalCost(_basket)));
+                _basket.Clear();
+                OrderItem.Clear();
+            }
+            return RedirectToAction("Index", OrderItem);
+        }
+
+        private void SaveBasketToDatabase(Dictionary<string, int> basket)
+        {
+            _foodRepository.SaveItems(basket);
+        }
+
+        private void SaveConsumptionToDatabase(EmployeeConsumption consumption)
+        {
+           // _foodRepository.SaveConsumption(consumption);
+        }
+
+        private int CalculateTotalCost(Dictionary<string, int> basket)
+        {
+            Dictionary<string, int> items = _foodRepository.GetFoods();
+            int totalCost = 0;
+            foreach(var item in basket.Keys)
+            {
+                totalCost += items[item] * basket[item];
+            }
+            return totalCost;
+        }
+
+        private void UpdateBasket(string itemName, int quantity)
+        {
+            if(_basket.ContainsKey(itemName))
+            {
+                _basket[itemName] += quantity;
+                if(_basket[itemName] <= 0) _basket.Remove(itemName);
+            }
+            else _basket.Add(itemName, quantity);
+        }
+
+        private bool IsValidNumber(string number)
+        {
+            return number.Length == number.Where(x => char.IsDigit(x)).Count() && int.Parse(number) > 0 ? true : false;
         }
 
         private List<int> GetEmployeeIdsFromDatabase()
@@ -54,21 +120,16 @@ namespace Etkezde.Controllers
             return _foodRepository.GetEmployeeIds();            
         }
 
-        public IActionResult OnPostOrderItems(OrderItemViewModel model)
+        private Dictionary<string, int> GetMenuCardFromDatabase()
         {
-            ViewBag.Basket = _basket;
-            OrderItem.ItemName = model.ItemName;
-            OrderItem.Quantity = model.Quantity;
-            _basket.Add(Tuple.Create(OrderItem.ItemName, OrderItem.Quantity.GetValueOrDefault()));
-            return RedirectToAction("Index", OrderItem);
+            return _foodRepository.GetFoods();
         }
 
         [HttpGet]
         public IActionResult Eating()
         {
             int currentMonth = DateTime.Now.Month;
-            var employees = _foodRepository.GetEmployeeConsumptions(currentMonth); // ez nem kell, ha a kövi sor már él sztem
-            
+            var employees = _foodRepository.GetEmployeeConsumptions(currentMonth); // ez nem kell, ha a kövi sor már él sztem            
             //return RedirectToAction("Eating", "Home", new {currentMonth});
             return View(employees);
         }
