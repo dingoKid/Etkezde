@@ -1,6 +1,17 @@
-﻿@{
+﻿@model List<Etkezde.Models.ProductConsumption>
+
+@{
     ViewData["Title"] = "Termék fogyás";
 }
 <h1>@ViewData["Title"]</h1>
 
 <p>Az aktuális hó termék fogyásai.</p>
+
+<ul>
+    @foreach (var termek in Model)
+{
+    <li>
+        Termek: @termek.ProductName Mennyiseg: @termek.TotalConsumption
+    </li>
+}
+</ul>

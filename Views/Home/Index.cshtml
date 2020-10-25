@@ -12,10 +12,10 @@
                 <div class="col-3">
                     @if(string.IsNullOrEmpty(Model.EmployeeName))                        
                     {
-                        <div class="alert alert-primary">
+                        <div class="alert alert-danger">
                             Add meg a dolgozo azonositojat!
                         </div>
-                    }
+                    }                    
                 </div>
                 <div class="col-3">
                     @if(!string.IsNullOrEmpty(Model.EmployeeName))
@@ -33,10 +33,10 @@
                         <!-- -->
                     </div>
 
-                    <div class="form">
+                    <div class="form-group">
                         <form method="POST" asp-controller="Home" asp-action="Index">
                                 <label asp-for="EmployeeId">Employee Id</label>
-                                <input asp-for="EmployeeId" value="@Model.EmployeeName"/>
+                                <input asp-for="EmployeeId" value="@Model.EmployeeName" class="form-control"/>
                                 <input type="submit" value="OK"/>
                         </form>
                     </div>
@@ -48,13 +48,12 @@
                         
                     </div>
 
-                    <div class="form">
+                    <div class="form-group">
                         <form method="POST" asp-controller="Home" asp-action="OnPostOrderItems">
                             <label asp-for="ItemName">Termek</label>
-                            <input asp-for="ItemName" />
-                            <br />
+                            <input asp-for="ItemName" class="form-control"/>
                             <label asp-for="Quantity">Mennyiseg</label>
-                            <input asp-for="Quantity" value="" />
+                            <input asp-for="Quantity" value="" class="form-control" />
 
                             <input type="submit" value="Bevitel" />
                         </form>
@@ -62,13 +61,13 @@
                 </div>
 
                 <div class="col-3">
-                    <div class="form">
+                    <div class="form-group">
                         <form method="POST" asp-controller="Home" asp-action="OnPostModifyItem">
                             <label asp-for="ItemName">Termek</label>
-                            <input asp-for="ItemName" />
+                            <input asp-for="ItemName" class="form-control" />
                             <br />
                             <label asp-for="Quantity">Mennyiseg</label>
-                            <input asp-for="Quantity" value="" />
+                            <input asp-for="Quantity" value="" class="form-control"/>
 
                             <input type="submit" value="Levonas" />
                         </form>
@@ -76,10 +75,10 @@
                 </div>
 
                 <div class="col-3">
-                    <div class="form">
+                    <div class="form-group">
                         <form method="POST" asp-controller="Home" asp-action="OnPostDeleteItem">
                             <label asp-for="ItemName">Termek</label>
-                            <input asp-for="ItemName" />
+                            <input asp-for="ItemName" class="form-control"/>
 
                             <input type="submit" value="Torles" />
                         </form>

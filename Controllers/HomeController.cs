@@ -34,7 +34,9 @@ namespace Etkezde.Controllers
         [HttpPost]
         public IActionResult Index(OrderItemViewModel model)
         {
-            if(!IsValidNumber(model.EmployeeId ??= "0") || !GetEmployeeIdsFromDatabase().Contains(int.Parse(model.EmployeeId)))
+            ViewBag.Basket = _basket;
+            if(!IsValidNumber(model.EmployeeId ??= "0") || !GetEmployeeIdsFromDatabase().Contains(int.Parse(model.EmployeeId))
+                || (OrderItem.EmployeeId != model.EmployeeId && _basket.Count != 0))
             {
                 return View(OrderItem);
             }
@@ -72,9 +74,18 @@ namespace Etkezde.Controllers
             if(_basket.Count != 0)
             {
                 SaveBasketToDatabase(_basket);
-                //SaveConsumptionToDatabase(new EmployeeConsumption(int.Parse(OrderItem.EmployeeId), CalculateTotalCost(_basket)));
+                SaveConsumptionToDatabase(new EmployeeConsumption(int.Parse(OrderItem.EmployeeId), CalculateTotalCost(_basket)));
                 _basket.Clear();
                 OrderItem.Clear();
+            }
+            return RedirectToAction("Index", OrderItem);
+        }
+
+        public IActionResult OnPostClearBasket()
+        {
+            if(_basket.Count != 0)
+            {                
+                _basket.Clear();
             }
             return RedirectToAction("Index", OrderItem);
         }
@@ -86,7 +97,7 @@ namespace Etkezde.Controllers
 
         private void SaveConsumptionToDatabase(EmployeeConsumption consumption)
         {
-           // _foodRepository.SaveConsumption(consumption);
+           _foodRepository.SaveConsumption(consumption);
         }
 
         private int CalculateTotalCost(Dictionary<string, int> basket)
@@ -129,18 +140,19 @@ namespace Etkezde.Controllers
         public IActionResult Eating()
         {
             int currentMonth = DateTime.Now.Month;
-            var employees = _foodRepository.GetEmployeeConsumptions(currentMonth); // ez nem kell, ha a kövi sor már él sztem            
-            //return RedirectToAction("Eating", "Home", new {currentMonth});
-            return View(employees);
+            //var employees = _foodRepository.GetEmployeeConsumptions(currentMonth); // ez nem kell, ha a kövi sor már él sztem            
+            return RedirectToAction("Eating", "Home", new {currentMonth});
+            //return View(employees);
         }
 
-        [HttpPost]
+        [HttpGet("/Home/Eating/id")]
         public IActionResult Eating(int month)
         {
             var employees = _foodRepository.GetEmployeeConsumptions(month);
             return View(employees);
         }
 
+        [HttpGet]
         public IActionResult Consuming()
         {
             int currentMonth = DateTime.Now.Month;
@@ -150,6 +162,7 @@ namespace Etkezde.Controllers
             return View(products);
         }
 
+        [HttpPost]
         public IActionResult Consuming(int month)
         {
             var products = _foodRepository.GetProductConsumption(month);

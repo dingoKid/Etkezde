@@ -9,33 +9,33 @@ namespace Etkezde.Database
 {
     public class FoodRepository
     {
-        private static SQLiteConnection _conn;
+        private static string _connectionString;
 
         public FoodRepository(string connectionString)
         {
-            _conn = new SQLiteConnection(connectionString);
+            _connectionString = connectionString;
         }
 
         public string GetEmployeeName(int id)
         {
-            _conn.Open();
+            using var conn = new SQLiteConnection(_connectionString);
+            conn.Open();
             var sql = "select Nev from dolgozo where id = " + id;
-            var command = new SQLiteCommand(sql, _conn);
+            var command = new SQLiteCommand(sql, conn);
             using var rdr = command.ExecuteReader();
             rdr.Read();            
             string employeeName = rdr.GetString(0);
-            _conn.Close();
             return employeeName;
         }
 
         public List<int> GetEmployeeIds()
         {
-            _conn.Open();
+            using var conn = new SQLiteConnection(_connectionString);
+            conn.Open();            
             var sql = "select id from dolgozo";
-            var command = new SQLiteCommand(sql, _conn);
+            var command = new SQLiteCommand(sql, conn);
             using var rdr = command.ExecuteReader();
             var result = CreateIntListFromQueryResult(rdr);
-            _conn.Close();
             return result;
         }
 
@@ -51,12 +51,12 @@ namespace Etkezde.Database
 
         public Dictionary<string, int> GetFoods()
         {
-            _conn.Open();
+            using var conn = new SQLiteConnection(_connectionString);
+            conn.Open();
             var sql = "select Nev, Ar from termek";
-            var command = new SQLiteCommand(sql, _conn);
+            var command = new SQLiteCommand(sql, conn);
             using var rdr = command.ExecuteReader();
             var result = CreateStringListFromQueryResult(rdr);
-            _conn.Close();
             return result;
         }
 
@@ -72,14 +72,14 @@ namespace Etkezde.Database
 
         public List<EmployeeConsumption> GetEmployeeConsumptions(int month)
         {
-            _conn.Open();
+            using var conn = new SQLiteConnection(_connectionString);
+            conn.Open();
 
             var sql = "SELECT d.Id AS DolgozoID, SUM(vegosszeg) AS Total FROM Dolgozo d INNER JOIN Ertekesites e ON d.Id = e.dolgozo_id WHERE datum LIKE '2020-" + month + "%' GROUP BY Nev ORDER BY DolgozoID";
-            var command = new SQLiteCommand(sql, _conn);
+            var command = new SQLiteCommand(sql, conn);
             using var rdr = command.ExecuteReader();
        
             var result = GetBuyingResults(rdr, month);
-            _conn.Close();
             return result;
         }
 
@@ -95,16 +95,16 @@ namespace Etkezde.Database
 
         public List<ProductConsumption> GetProductConsumption(int month)
         {
-            _conn.Open();
+            using var conn = new SQLiteConnection(_connectionString);
+            conn.Open();
 
-            var sql = "SELECT t.termek_nev AS Termek, SUM(mennyiseg) AS Mennyiseg from ertekesites e inner join tetel t on e.id = t.ertekesites_id where e.datum like '2020-" + month + "%' group by termek order by Mennyiseg desc";
-            var command = new SQLiteCommand(sql, _conn);
+            var sql = "select termek_nev as Termek, sum(mennyiseg) as Total from tetel where datum like '2020-" + month + "%' group by termek_nev order by sum(mennyiseg) desc";
+            var command = new SQLiteCommand(sql, conn);
             using var rdr = command.ExecuteReader();
 
             var result = GetProductResult(rdr, month);
-            _conn.Close();
             return result;
-        }
+        }        
 
         private List<ProductConsumption> GetProductResult(SQLiteDataReader reader, int month)
         {
@@ -118,21 +118,36 @@ namespace Etkezde.Database
 
         public void SaveItems(Dictionary<string, int> basket)
         {
-            _conn.Open();
+            using var conn = new SQLiteConnection(_connectionString);
+            conn.Open();
             var sql = "insert into tetel (Datum, Termek_nev, Mennyiseg) values(@Datum, @Termek_nev, @Mennyiseg)";
             SQLiteCommand command;
             var date = DateTime.Now.ToString("yyyy-MM-dd");
             foreach(var nev in basket.Keys)
             {
-                command = new SQLiteCommand(sql, _conn);
+                command = new SQLiteCommand(sql, conn);
                 command.Parameters.AddWithValue("@Datum", date);
                 command.Parameters.AddWithValue("@Termek_nev", nev);
-                int num = basket[nev];
-                command.Parameters.AddWithValue("@Mennyiseg", num);
+                command.Parameters.AddWithValue("@Mennyiseg", basket[nev]);
                 command.Prepare();
                 command.ExecuteNonQuery();
-            }            
-            _conn.Close();
+            }
+        }
+
+        public void SaveConsumption(EmployeeConsumption consumption)
+        {
+            using var conn = new SQLiteConnection(_connectionString);
+            conn.Open();
+            var sql = "insert into ertekesites (Datum, Vegosszeg, Dolgozo_id) values(@Datum, @Vegosszeg, @Dolgzo_id)";
+            SQLiteCommand command;
+            var date = DateTime.Now.ToString("yyyy-MM-dd"); 
+
+            command = new SQLiteCommand(sql, conn);
+            command.Parameters.AddWithValue("@Datum", date);
+            command.Parameters.AddWithValue("@Vegosszeg", consumption.CostOfConsumption);
+            command.Parameters.AddWithValue("@Dolgzo_id", consumption.EmployeeId);
+            command.Prepare();
+            command.ExecuteNonQuery();            
         }
     }
 }
