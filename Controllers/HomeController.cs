@@ -28,21 +28,25 @@ namespace Etkezde.Controllers
         public IActionResult Index()
         {
             ViewBag.Basket = _basket;
+            ViewBag.Menu = _foodRepository.GetFoods();
             return View(OrderItem);
         }
 
         [HttpPost]
         public IActionResult Index(OrderItemViewModel model)
         {
-            ViewBag.Basket = _basket;
+            /*ViewBag.Basket = _basket;
+            ViewBag.Menu = _foodRepository.GetFoods();*/
             if(!IsValidNumber(model.EmployeeId ??= "0") || !GetEmployeeIdsFromDatabase().Contains(int.Parse(model.EmployeeId))
                 || (OrderItem.EmployeeId != model.EmployeeId && _basket.Count != 0))
             {
-                return View(OrderItem);
+                //return View(OrderItem);
+                return RedirectToAction("Index", OrderItem);
             }
             OrderItem.EmployeeName = _foodRepository.GetEmployeeName(int.Parse(model.EmployeeId));
             OrderItem.EmployeeId = model.EmployeeId;
-            return View(OrderItem);
+            //return View(OrderItem);
+            return RedirectToAction("Index", OrderItem);
         }       
 
         public IActionResult OnPostOrderItems(OrderItemViewModel model)
@@ -136,43 +140,39 @@ namespace Etkezde.Controllers
             return _foodRepository.GetFoods();
         }
 
-        [HttpGet]
-        public IActionResult Eating()
+        
+        public IActionResult EatCurrentMonth()
         {
             int currentMonth = DateTime.Now.Month;
             //var employees = _foodRepository.GetEmployeeConsumptions(currentMonth); // ez nem kell, ha a kövi sor már él sztem            
-            return RedirectToAction("Eating", "Home", new {currentMonth});
+            return RedirectToAction("Eating", "Home", new {month=currentMonth});
             //return View(employees);
         }
 
-        [HttpGet("/Home/Eating/id")]
+        [HttpGet]
         public IActionResult Eating(int month)
         {
             var employees = _foodRepository.GetEmployeeConsumptions(month);
             return View(employees);
         }
 
-        [HttpGet]
-        public IActionResult Consuming()
+        
+        public IActionResult ConsumingCurrentMonth()
         {
             int currentMonth = DateTime.Now.Month;
-            var products = _foodRepository.GetProductConsumption(currentMonth);
+            //var products = _foodRepository.GetProductConsumption(currentMonth);
 
-            //return RedirectToAction("Consuming", "Home", new {currentMonth});
-            return View(products);
+            return RedirectToAction("Consuming", "Home", new {month=currentMonth});
+            //return View(products);
         }
 
-        [HttpPost]
+        [HttpGet]
         public IActionResult Consuming(int month)
         {
             var products = _foodRepository.GetProductConsumption(month);
             return View(products);
         }
 
-        /*[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }*/
+
     }
 }
