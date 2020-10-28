@@ -1,5 +1,5 @@
 {
-  "FilePath": "d:\\Github\\Etkezde\\Etkezde.csproj",
+  "FilePath": "c:\\Denes\\c#\\Etkezde\\Etkezde.csproj",
   "Configuration": {
     "ConfigurationName": "MVC-3.0",
     "LanguageVersion": "3.0",
@@ -14387,48 +14387,43 @@
         }
       }
     ],
-    "CSharpLanguageVersion": 900
+    "CSharpLanguageVersion": 800
   },
   "RootNamespace": "Etkezde",
   "Documents": [
     {
-      "FilePath": "d:\\Github\\Etkezde\\Views\\Shared\\_Layout.cshtml",
-      "TargetPath": "Views\\Shared\\_Layout.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "d:\\Github\\Etkezde\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
-      "TargetPath": "Views\\Shared\\_ValidationScriptsPartial.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "d:\\Github\\Etkezde\\Views\\Home\\Eating.cshtml",
-      "TargetPath": "Views\\Home\\Eating.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "d:\\Github\\Etkezde\\Views\\_ViewImports.cshtml",
-      "TargetPath": "Views\\_ViewImports.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "d:\\Github\\Etkezde\\Views\\Home\\Index.cshtml",
+      "FilePath": "c:\\Denes\\c#\\Etkezde\\Views\\Home\\Index.cshtml",
       "TargetPath": "Views\\Home\\Index.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "d:\\Github\\Etkezde\\Views\\Shared\\Error.cshtml",
-      "TargetPath": "Views\\Shared\\Error.cshtml",
+      "FilePath": "c:\\Denes\\c#\\Etkezde\\Views\\Home\\Consuming.cshtml",
+      "TargetPath": "Views\\Home\\Consuming.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "d:\\Github\\Etkezde\\Views\\_ViewStart.cshtml",
+      "FilePath": "c:\\Denes\\c#\\Etkezde\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
+      "TargetPath": "Views\\Shared\\_ValidationScriptsPartial.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Denes\\c#\\Etkezde\\Views\\Home\\Eating.cshtml",
+      "TargetPath": "Views\\Home\\Eating.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Denes\\c#\\Etkezde\\Views\\Shared\\_Layout.cshtml",
+      "TargetPath": "Views\\Shared\\_Layout.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Denes\\c#\\Etkezde\\Views\\_ViewStart.cshtml",
       "TargetPath": "Views\\_ViewStart.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "d:\\Github\\Etkezde\\Views\\Home\\Consuming.cshtml",
-      "TargetPath": "Views\\Home\\Consuming.cshtml",
+      "FilePath": "c:\\Denes\\c#\\Etkezde\\Views\\_ViewImports.cshtml",
+      "TargetPath": "Views\\_ViewImports.cshtml",
       "FileKind": "mvc"
     }
   ],

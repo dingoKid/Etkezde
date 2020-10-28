@@ -26,3 +26,70 @@ CONSTRAINT fk_Termek
 FOREIGN KEY (Termek_nev)
 REFERENCES Termek(nev)
 );
+
+insert into dolgozo (nev) values ('Kovacs Zoltan');
+insert into dolgozo (nev) values ('Nemeth Istvan');
+insert into dolgozo (nev) values ('Szabo Karoly');
+insert into dolgozo (nev) values ('Molnar Viktoria');
+insert into dolgozo (nev) values ('Marton Agnes');
+insert into dolgozo (nev) values ('Nagy Judit');
+
+insert into termek values ('Menu', 850);
+insert into termek values ('Sutemeny', 250);
+insert into termek values ('Kave', 150);
+insert into termek values ('Cola', 200);
+insert into termek values ('Szendvics', 200);
+insert into termek values ('Kenyer', 50);
+
+insert into ertekesites (Datum, Vegosszeg, Dolgozo_id) values ('2020-08-10', 1300, 1);
+insert into ertekesites (Datum, Vegosszeg, Dolgozo_id) values ('2020-08-10', 1100, 2);
+insert into ertekesites (Datum, Vegosszeg, Dolgozo_id) values ('2020-08-11', 1250, 2);
+insert into ertekesites (Datum, Vegosszeg, Dolgozo_id) values ('2020-08-11', 650, 3);
+insert into ertekesites (Datum, Vegosszeg, Dolgozo_id) values ('2020-08-12', 1650, 3);
+
+insert into ertekesites (Datum, Vegosszeg, Dolgozo_id) values ('2020-09-10', 1050, 4);
+insert into ertekesites (Datum, Vegosszeg, Dolgozo_id) values ('2020-09-10', 1550, 5);
+insert into ertekesites (Datum, Vegosszeg, Dolgozo_id) values ('2020-09-10', 800, 6);
+insert into ertekesites (Datum, Vegosszeg, Dolgozo_id) values ('2020-09-11', 1000, 6);
+insert into ertekesites (Datum, Vegosszeg, Dolgozo_id) values ('2020-09-11', 1300, 5);
+
+insert into tetel values ('2020-08-10', 'Menu', 1);
+insert into tetel values ('2020-08-10', 'Sutemeny', 1);
+insert into tetel values ('2020-08-10', 'Cola', 1);
+
+insert into tetel values ('2020-08-10', 'Menu', 1);
+insert into tetel values ('2020-08-10', 'Kave', 1);
+insert into tetel values ('2020-08-10', 'Kenyer', 2);
+
+insert into tetel values ('2020-08-11', 'Menu', 1);
+insert into tetel values ('2020-08-11', 'Sutemeny', 1);
+insert into tetel values ('2020-08-11', 'Kave', 1);
+
+insert into tetel values ('2020-08-11', 'Sutemeny', 1);
+insert into tetel values ('2020-08-11', 'Cola', 1);
+insert into tetel values ('2020-08-11', 'Szendvics', 1);
+
+insert into tetel values ('2020-08-11', 'Menu', 1);
+insert into tetel values ('2020-08-11', 'Sutemeny', 1);
+insert into tetel values ('2020-08-11', 'Kave', 1);
+insert into tetel values ('2020-08-11', 'Cola', 1);
+insert into tetel values ('2020-08-11', 'Kenyer', 4);
+
+insert into tetel values ('2020-09-10', 'Menu', 1);
+insert into tetel values ('2020-09-10', 'Kave', 1);
+insert into tetel values ('2020-09-10', 'Kenyer', 1);
+
+insert into tetel values ('2020-09-10', 'Menu', 1);
+insert into tetel values ('2020-09-10', 'Sutemeny', 2);
+insert into tetel values ('2020-09-10', 'Szendvics', 1);
+
+insert into tetel values ('2020-09-10', 'Sutemeny', 1);
+insert into tetel values ('2020-09-10', 'Kave', 1);
+insert into tetel values ('2020-09-10', 'Szendvics', 2);
+
+insert into tetel values ('2020-09-11', 'Menu', 1);
+insert into tetel values ('2020-09-11', 'Kenyer', 3);
+
+insert into tetel values ('2020-09-11', 'Menu', 1);
+insert into tetel values ('2020-09-11', 'Sutemeny', 1);
+insert into tetel values ('2020-09-11', 'Cola', 1);

@@ -1,147 +1,139 @@
 ﻿@model Etkezde.Models.OrderItemViewModel
 
 @{
-    ViewData["Title"] = "Zabálj ingyen!";
+    ViewData["Title"] = "Etkezde";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Kajálda</h1>
         
-        <div class="container pt-3">
-            <div class="row">
-                <div class="col-3">
-                    @if(string.IsNullOrEmpty(Model.EmployeeName))                        
-                    {
-                        <div class="alert alert-danger">
-                            Add meg a dolgozo azonositojat!
-                        </div>
-                    }                    
+    <div class="container pt-3">
+        <div class="row">
+            <div class="col-3">
+                @if(string.IsNullOrEmpty(Model.EmployeeName))                        
+                {
+                    <div class="alert alert-danger">
+                        Add meg a dolgozo azonositojat!
+                    </div>
+                }                    
+            </div>
+            <div class="col-3">
+                @if(!string.IsNullOrEmpty(Model.EmployeeName))
+                {
+                    <div class="alert alert-primary">
+                        Add meg a termeket es a mennyiseget!
+                    </div>
+                }
+            </div>
+            <div class="col-3">
+                    <div class="alert alert-info">
+                        Rendeles modositasa
+                    </div>                    
+            </div>
+            <div class="col-3">
+                    <div class="alert alert-info">
+                        Termek torlese
+                    </div>                    
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-3">
+                <div class="form-group">
+                    <form method="POST" asp-controller="Home" asp-action="Index">
+                            <strong><label asp-for="EmployeeId">Employee Id</label></strong>
+                            <input asp-for="EmployeeId" value="@Model.EmployeeName" class="form-control" />                                
+                            <button class ="btn btn-primary" type="submit">Ok</button>
+                    </form>
                 </div>
-                <div class="col-3">
-                    @if(!string.IsNullOrEmpty(Model.EmployeeName))
-                    {
-                        <div class="alert alert-primary">
-                            Add meg a termeket es a mennyiseget!
-                        </div>
-                    }
-                </div>
-                <div class="col-3">
-                        <div class="alert alert-info">
-                            Lista modositasa
-                        </div>                    
-                </div>
-                <div class="col-3">
-                        <div class="alert alert-info">
-                            Termek torlese
-                        </div>                    
+            </div>
+        
+            <div class="col-3">
+                <div class="form-group">
+                    <form method="POST" asp-controller="Home" asp-action="OnPostOrderItems">
+                        <strong><label asp-for="ItemName">Termek</label></strong>
+                        <input asp-for="ItemName" class="form-control"/>                            
+                        <strong><label asp-for="Quantity">Darab</label></strong>
+                        <input asp-for="Quantity" value="" size="2" />
+                        <button class ="btn btn-primary" type="submit">Bevitel</button>
+                    </form>
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-3">                    
-
-                    <div class="form-group">
-                        <form method="POST" asp-controller="Home" asp-action="Index">
-                                <label asp-for="EmployeeId">Employee Id</label>
-                                <div class="row">
-                                    <div class="col-4"></div>
-                                    <div class="col-4">
-                                <input asp-for="EmployeeId" value="@Model.EmployeeName" class="form-control" />
-                                </div>
-                                </div>
-                                <button class ="btn btn-primary" type="submit">OK</button>
-                        </form>
-                    </div>
-                                    
-                </div>
-            
-                <div class="col-3">
-
-                    <div class="form-group">
-                        <form method="POST" asp-controller="Home" asp-action="OnPostOrderItems">
-                            <label asp-for="ItemName">Termek</label>
-                            <input asp-for="ItemName" class="form-control"/>
-                            <label asp-for="Quantity">Mennyiseg</label>
-                            <input asp-for="Quantity" value="" class="form-control" />
-                            <button class ="btn btn-primary" type="submit">Bevitel</button>
-                        </form>
-                    </div>
-                </div>
-
-                <div class="col-3">
-                    <div class="form-group">
-                        <form method="POST" asp-controller="Home" asp-action="OnPostModifyItem">
-                            <label asp-for="ItemName">Termek</label>
-                            <input asp-for="ItemName" class="form-control" />
-                            <label asp-for="Quantity">Mennyiseg</label>
-                            <input asp-for="Quantity" value="" class="form-control"/>
-                            <button class ="btn btn-primary" type="submit">Csokkent</button>
-                        </form>
-                    </div>
-                </div>
-
-                <div class="col-3">
-                    <div class="form-group">
-                        <form method="POST" asp-controller="Home" asp-action="OnPostDeleteItem">
-                            <label asp-for="ItemName">Termek</label>
-                            <input asp-for="ItemName" class="form-control"/>
-                            <button class ="btn btn-primary" type="submit">Torles</button>
-                        </form>
-                    </div>
+            <div class="col-3">
+                <div class="form-group">
+                    <form method="POST" asp-controller="Home" asp-action="OnPostModifyItem">
+                        <strong><label asp-for="ItemName">Termek</label></strong>
+                        <input asp-for="ItemName" class="form-control" />
+                        <strong><label asp-for="Quantity">Darab</label></strong>
+                        <input asp-for="Quantity" value="" size="2" />
+                        
+                        <button class ="btn btn-primary" type="submit">Csokkent</button>
+                    </form>
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-3">
-                    <div class="container">
-                        <h3>Menu</h3>
-                        <table class="table table-condensed" style="table-layout: fixed; width: 100%;">
-                            <thead>
-                                <tr>
-                                    <th>Termek</th>
-                                    <th>Ar</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if(ViewBag.Menu != null)                           
-                                    foreach (KeyValuePair<string, int> item in ViewBag.Menu)
-                                    {
-                                        <tr>
-                                            <td>@item.Key</td>
-                                            <td>@item.Value</td>
-                                        </tr>
-                                    }                            
-                            </tbody>
-                        </table>
-                    </div>
+            <div class="col-3">
+                <div class="form-group">
+                    <form method="POST" asp-controller="Home" asp-action="OnPostDeleteItem">
+                        <strong><label asp-for="ItemName">Termek</label></strong>
+                        <input asp-for="ItemName" class="form-control"/>
+                        <button class ="btn btn-primary" type="submit">Torles</button>
+                    </form>
                 </div>
-                <div class="col-5">
-                    <div class="container">
-                        <h3>Rendeles</h3>
-                        <table class="table table-condensed" style="table-layout: fixed; width: 100%;">
-                            <thead>
-                                <tr>
-                                    <th>Termek</th>
-                                    <th>Mennyiseg</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            @if(ViewBag.Basket != null)
-                            {
-                                foreach (KeyValuePair<string, int> item in ViewBag.Basket)
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-3">
+                <div class="container">
+                    <h3>Menu</h3>
+                    <table class="table table-condensed" style="table-layout: fixed; width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>Termek</th>
+                                <th>Ar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if(ViewBag.Menu != null)                           
+                                foreach (KeyValuePair<string, int> item in ViewBag.Menu)
                                 {
                                     <tr>
                                         <td>@item.Key</td>
                                         <td>@item.Value</td>
                                     </tr>
-                                }
+                                }                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-5">
+                <div class="container">
+                    <h3>Rendeles</h3>
+                    <table class="table table-condensed" style="table-layout: fixed; width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>Termek</th>
+                                <th>Mennyiseg</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @if(ViewBag.Basket != null)
+                        {
+                            foreach (KeyValuePair<string, int> item in ViewBag.Basket)
+                            {
+                                <tr>
+                                    <td>@item.Key</td>
+                                    <td>@item.Value</td>
+                                </tr>
                             }
-                            </tbody>
-                        </table>
-                        <input class="btn btn-success" type="button" value="Fizet" onclick="location.href='@Url.Action("OnPostFinishShopping", "Home")'" />
-                        <input class="btn btn-danger" type="button" value="Torol" onclick="location.href='@Url.Action("OnPostClearBasket", "Home")'" />
-                    </div>
+                        }
+                        </tbody>
+                    </table>
+                    <input class="btn btn-success" type="button" value="Fizet" onclick="location.href='@Url.Action("OnPostFinishShopping", "Home")'" />
+                    <input class="btn btn-danger" type="button" value="Torol" onclick="location.href='@Url.Action("OnPostClearBasket", "Home")'" />
                 </div>
             </div>
         </div>
+    </div>
 </div>

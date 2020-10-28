@@ -1,17 +1,40 @@
 ﻿@model List<Etkezde.Models.ProductConsumption>
 
 @{
-    ViewData["Title"] = "Termék fogyás";
+    ViewData["Title"] = "Termek fogyas";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Az aktuális hó termék fogyásai.</p>
+<br />
+<div class="col-6 text-center">
+    <table class="table table-condensed" style="table-layout: fixed; width: 100%;">
+        <caption style="caption-side: top">A termekek havi fogyasa</caption>
+        <thead>
+            <tr>
+                <th>Termek</th>
+                <th>Darab</th>
+            </tr>
+        </thead>
 
-<ul>
-    @foreach (var termek in Model)
-{
-    <li>
-        Termek: @termek.ProductName Mennyiseg: @termek.TotalConsumption
-    </li>
-}
-</ul>
+        <tbody>
+            @if(Model.Count() != 0)                           
+                foreach (var product in Model)
+                {
+                    <tr>
+                        <td>@product.ProductName</td>
+                        <td>@product.TotalConsumption</td>
+                    </tr>
+                }                            
+        </tbody>
+    </table>
+</div>
+    
+<div class="row">
+    <div class="col-4">
+        <form method="POST" asp-controller="Home" asp-action="Consuming">
+                <strong><label for="month">Honap valtasa</label></strong>
+                <input name="month" size="2"/>
+                <br />
+                <button class ="btn btn-primary" type="submit">OK</button>
+        </form>
+    </div>
+</div>    

@@ -15,6 +15,7 @@ namespace Etkezde.Controllers
         private readonly string _connectionString;        
         private static OrderItemViewModel OrderItem = new OrderItemViewModel();
         private static Dictionary<string, int> _basket = new Dictionary<string, int>();
+        private static int currentMonth = DateTime.Now.Month;
 
         public HomeController()
         {
@@ -35,17 +36,13 @@ namespace Etkezde.Controllers
         [HttpPost]
         public IActionResult Index(OrderItemViewModel model)
         {
-            /*ViewBag.Basket = _basket;
-            ViewBag.Menu = _foodRepository.GetFoods();*/
             if(!IsValidNumber(model.EmployeeId ??= "0") || !GetEmployeeIdsFromDatabase().Contains(int.Parse(model.EmployeeId))
                 || (OrderItem.EmployeeId != model.EmployeeId && _basket.Count != 0))
             {
-                //return View(OrderItem);
                 return RedirectToAction("Index", OrderItem);
             }
             OrderItem.EmployeeName = _foodRepository.GetEmployeeName(int.Parse(model.EmployeeId));
             OrderItem.EmployeeId = model.EmployeeId;
-            //return View(OrderItem);
             return RedirectToAction("Index", OrderItem);
         }       
 
@@ -140,39 +137,32 @@ namespace Etkezde.Controllers
             return _foodRepository.GetFoods();
         }
 
-        
-        public IActionResult EatCurrentMonth()
+        [HttpGet]
+        public IActionResult Eating()
         {
-            int currentMonth = DateTime.Now.Month;
-            //var employees = _foodRepository.GetEmployeeConsumptions(currentMonth); // ez nem kell, ha a kövi sor már él sztem            
-            return RedirectToAction("Eating", "Home", new {month=currentMonth});
-            //return View(employees);
+            var employees = _foodRepository.GetEmployeeConsumptions(currentMonth);
+            return View(employees);
         }
 
-        [HttpGet]
+        [HttpPost]
         public IActionResult Eating(int month)
         {
             var employees = _foodRepository.GetEmployeeConsumptions(month);
             return View(employees);
         }
 
-        
-        public IActionResult ConsumingCurrentMonth()
+        [HttpGet]
+        public IActionResult Consuming()
         {
-            int currentMonth = DateTime.Now.Month;
-            //var products = _foodRepository.GetProductConsumption(currentMonth);
-
-            return RedirectToAction("Consuming", "Home", new {month=currentMonth});
-            //return View(products);
+            var products = _foodRepository.GetProductConsumption(currentMonth);
+            return View(products);
         }
 
-        [HttpGet]
+        [HttpPost]
         public IActionResult Consuming(int month)
         {
             var products = _foodRepository.GetProductConsumption(month);
             return View(products);
         }
-
-
     }
 }

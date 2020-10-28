@@ -75,7 +75,7 @@ namespace Etkezde.Database
             using var conn = new SQLiteConnection(_connectionString);
             conn.Open();
 
-            var sql = "SELECT d.Id AS DolgozoID, SUM(vegosszeg) AS Total FROM Dolgozo d INNER JOIN Ertekesites e ON d.Id = e.dolgozo_id WHERE datum LIKE '2020-" + month + "%' GROUP BY Nev ORDER BY DolgozoID";
+            var sql = "SELECT d.Id AS DolgozoID, SUM(vegosszeg) AS Total FROM Dolgozo d INNER JOIN Ertekesites e ON d.Id = e.dolgozo_id WHERE datum LIKE '2020-" + month.ToString("D2") + "%' GROUP BY Nev ORDER BY DolgozoID";
             var command = new SQLiteCommand(sql, conn);
             using var rdr = command.ExecuteReader();
        
@@ -97,8 +97,7 @@ namespace Etkezde.Database
         {
             using var conn = new SQLiteConnection(_connectionString);
             conn.Open();
-
-            var sql = "select termek_nev as Termek, sum(mennyiseg) as Total from tetel where datum like '2020-" + month + "%' group by termek_nev order by sum(mennyiseg) desc";
+            var sql = "select termek_nev as Termek, sum(mennyiseg) as Total from tetel where datum like '2020-" + month.ToString("D2") + "%' group by termek_nev order by sum(mennyiseg) desc";
             var command = new SQLiteCommand(sql, conn);
             using var rdr = command.ExecuteReader();
 

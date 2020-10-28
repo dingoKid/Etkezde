@@ -20,7 +20,6 @@ C:\Denes\c#\Etkezde\obj\Debug\netcoreapp3.1\Etkezde.TagHelpers.input.cache
 C:\Denes\c#\Etkezde\obj\Debug\netcoreapp3.1\Etkezde.TagHelpers.output.cache
 C:\Denes\c#\Etkezde\obj\Debug\netcoreapp3.1\Etkezde.RazorCoreGenerate.cache
 C:\Denes\c#\Etkezde\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
-C:\Denes\c#\Etkezde\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Error.cshtml.g.cs
 C:\Denes\c#\Etkezde\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout.cshtml.g.cs
 C:\Denes\c#\Etkezde\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_ValidationScriptsPartial.cshtml.g.cs
 C:\Denes\c#\Etkezde\obj\Debug\netcoreapp3.1\Razor\Views\_ViewImports.cshtml.g.cs
