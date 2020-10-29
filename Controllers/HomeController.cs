@@ -124,7 +124,9 @@ namespace Etkezde.Controllers
 
         private bool IsValidNumber(string number)
         {
-            return number.Length == number.Where(x => char.IsDigit(x)).Count() && int.Parse(number) > 0 ? true : false;
+            int value;
+            bool isValidInt = int.TryParse(number, out value) && value > 0;
+            return isValidInt;
         }
 
         private List<int> GetEmployeeIdsFromDatabase()
@@ -145,10 +147,18 @@ namespace Etkezde.Controllers
         }
 
         [HttpPost]
-        public IActionResult Eating(int month)
+        public IActionResult Eating(string month)
         {
-            var employees = _foodRepository.GetEmployeeConsumptions(month);
-            return View(employees);
+            if(IsValidNumber(month) && int.Parse(month) < 13)
+            {
+                var employees = _foodRepository.GetEmployeeConsumptions(int.Parse(month));
+                return View(employees);
+            }
+            else
+            {
+                var employees = _foodRepository.GetEmployeeConsumptions(currentMonth);
+                return View(employees);
+            }
         }
 
         [HttpGet]
@@ -159,10 +169,19 @@ namespace Etkezde.Controllers
         }
 
         [HttpPost]
-        public IActionResult Consuming(int month)
+        public IActionResult Consuming(string month)
         {
-            var products = _foodRepository.GetProductConsumption(month);
-            return View(products);
+            if(IsValidNumber(month) && int.Parse(month) < 13)
+            {
+                var products = _foodRepository.GetProductConsumption(int.Parse(month));
+                return View(products);
+            }
+            else
+            {
+                var products = _foodRepository.GetProductConsumption(currentMonth);
+                return View(products);
+            }
+            
         }
     }
 }
