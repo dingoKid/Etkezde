@@ -33,6 +33,17 @@ namespace Etkezde.Controllers
             return View(OrderItem);
         }
 
+        //[HttpPost]
+        public IActionResult SetId(int empid)
+        {
+            if(empid < 7) 
+            {
+                OrderItem.EmployeeId = empid.ToString();
+                OrderItem.EmployeeName = _foodRepository.GetEmployeeName(int.Parse(OrderItem.EmployeeId));
+            }
+            return RedirectToAction("Index", OrderItem);
+        }
+
         [HttpPost]
         public IActionResult Index(OrderItemViewModel model)
         {

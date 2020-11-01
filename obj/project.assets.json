@@ -24,6 +24,15 @@
           "buildTransitive/EntityFramework.targets": {}
         }
       },
+      "jQuery/1.8.0": {
+        "type": "package"
+      },
+      "jQuery.Validation/1.8.0.1": {
+        "type": "package",
+        "dependencies": {
+          "jQuery": "1.3.2"
+        }
+      },
       "Microsoft.CSharp/4.6.0": {
         "type": "package",
         "compile": {
@@ -31,6 +40,13 @@
         },
         "runtime": {
           "lib/netcoreapp2.0/_._": {}
+        }
+      },
+      "Microsoft.jQuery.Unobtrusive.Validation/3.2.11": {
+        "type": "package",
+        "dependencies": {
+          "jQuery": "1.8.0",
+          "jQuery.Validation": "1.8.0.1"
         }
       },
       "Microsoft.NETCore.Platforms/3.1.0": {
@@ -396,6 +412,39 @@
         "tools/netcoreapp3.0/any/ef6.runtimeconfig.json"
       ]
     },
+    "jQuery/1.8.0": {
+      "sha512": "laDFQRJrIRHT0Z0GVYklMt3bE0iu0MZFJwHwg21kt3SHb7Bj8TdNiM3K+ZdK1DzB8ZxKy8z7NkJvwMas+dmHBw==",
+      "type": "package",
+      "path": "jquery/1.8.0",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Content/Scripts/jquery-1.8.0-vsdoc.js",
+        "Content/Scripts/jquery-1.8.0.js",
+        "Content/Scripts/jquery-1.8.0.min.js",
+        "Tools/common.ps1",
+        "Tools/install.ps1",
+        "Tools/jquery-1.8.0.intellisense.js",
+        "Tools/uninstall.ps1",
+        "jquery.1.8.0.nupkg.sha512",
+        "jquery.nuspec"
+      ]
+    },
+    "jQuery.Validation/1.8.0.1": {
+      "sha512": "cSBTW8FiNcFYy7h8jY38ffnJGia25HQH/z1TP3f8OKZhn1ZSGS7Bebz9nMevKbtsAjzHhDFp/Cq0cT+ixwiB5A==",
+      "type": "package",
+      "path": "jquery.validation/1.8.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Content/Scripts/jquery.validate-vsdoc.js",
+        "Content/Scripts/jquery.validate.js",
+        "Content/Scripts/jquery.validate.min.js",
+        "jquery.validation.1.8.0.1.nupkg.sha512",
+        "jquery.validation.nuspec"
+      ]
+    },
     "Microsoft.CSharp/4.6.0": {
       "sha512": "kxn3M2rnAGy5N5DgcIwcE8QTePWU/XiYcQVzn9HqTls2NKluVzVSmVWRjK7OUPWbljCXuZxHyhEz9kPRIQeXow==",
       "type": "package",
@@ -463,6 +512,19 @@
         "ref/xamarinwatchos10/_._",
         "useSharedDesignerContext.txt",
         "version.txt"
+      ]
+    },
+    "Microsoft.jQuery.Unobtrusive.Validation/3.2.11": {
+      "sha512": "8qGe1q3vV5Fwbpb0OSI8SxSiIBeFt9sgAvFvPwgZuuL+PZ+z0VsPB5yeqT+SrvPKpyVpN33MLhgvSW5Zf07IsQ==",
+      "type": "package",
+      "path": "microsoft.jquery.unobtrusive.validation/3.2.11",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Content/Scripts/jquery.validate.unobtrusive.js",
+        "Content/Scripts/jquery.validate.unobtrusive.min.js",
+        "microsoft.jquery.unobtrusive.validation.3.2.11.nupkg.sha512",
+        "microsoft.jquery.unobtrusive.validation.nuspec"
       ]
     },
     "Microsoft.NETCore.Platforms/3.1.0": {
@@ -1180,29 +1242,32 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
+      "Microsoft.jQuery.Unobtrusive.Validation >= 3.2.11",
       "System.Data.SQLite >= 1.0.113.1",
       "System.Data.SqlClient >= 4.8.2"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\gyetvaid\\.nuget\\packages\\": {}
+    "C:\\Users\\Gyetvai D\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Denes\\c#\\Etkezde\\Etkezde.csproj",
+      "projectUniqueName": "C:\\Users\\Gyetvai D\\C#\\Projects\\Etkezde\\Etkezde\\Etkezde.csproj",
       "projectName": "Etkezde",
-      "projectPath": "C:\\Denes\\c#\\Etkezde\\Etkezde.csproj",
-      "packagesPath": "C:\\Users\\gyetvaid\\.nuget\\packages\\",
-      "outputPath": "C:\\Denes\\c#\\Etkezde\\obj\\",
+      "projectPath": "C:\\Users\\Gyetvai D\\C#\\Projects\\Etkezde\\Etkezde\\Etkezde.csproj",
+      "packagesPath": "C:\\Users\\Gyetvai D\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Gyetvai D\\C#\\Projects\\Etkezde\\Etkezde\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\gyetvaid\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\Gyetvai D\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -1219,6 +1284,10 @@
     "frameworks": {
       "netcoreapp3.1": {
         "dependencies": {
+          "Microsoft.jQuery.Unobtrusive.Validation": {
+            "target": "Package",
+            "version": "[3.2.11, )"
+          },
           "System.Data.SQLite": {
             "target": "Package",
             "version": "[1.0.113.1, )"
@@ -1238,6 +1307,12 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[3.1.2, 3.1.2]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
@@ -1246,7 +1321,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.301\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.300\\RuntimeIdentifierGraph.json"
       }
     }
   }

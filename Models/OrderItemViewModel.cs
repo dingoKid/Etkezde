@@ -10,6 +10,8 @@ namespace Etkezde.Models
         private string _itemName;
         public string EmployeeId { get; set; }
         public string EmployeeName { get; set; }
+
+        [Required]
         public string ItemName { 
             get
             {
@@ -21,6 +23,8 @@ namespace Etkezde.Models
                 else _itemName = null;
             }
         }
+
+        [Required]
         public string Quantity { get; set; }
 
         public void Clear()
