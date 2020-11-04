@@ -42,6 +42,12 @@
           "lib/netcoreapp2.0/_._": {}
         }
       },
+      "Microsoft.jQuery.Unobtrusive.Ajax/3.2.6": {
+        "type": "package",
+        "dependencies": {
+          "jQuery": "1.8.0"
+        }
+      },
       "Microsoft.jQuery.Unobtrusive.Validation/3.2.11": {
         "type": "package",
         "dependencies": {
@@ -512,6 +518,19 @@
         "ref/xamarinwatchos10/_._",
         "useSharedDesignerContext.txt",
         "version.txt"
+      ]
+    },
+    "Microsoft.jQuery.Unobtrusive.Ajax/3.2.6": {
+      "sha512": "udg7ZBszgqxloQ+ShJRONKQAzPnJIlUhKZB+AIvZdKh7CDc5Nms69T9X0hN5i+NqMmQE6njkzdCcEb16lPdJTw==",
+      "type": "package",
+      "path": "microsoft.jquery.unobtrusive.ajax/3.2.6",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Content/Scripts/jquery.unobtrusive-ajax.js",
+        "Content/Scripts/jquery.unobtrusive-ajax.min.js",
+        "microsoft.jquery.unobtrusive.ajax.3.2.6.nupkg.sha512",
+        "microsoft.jquery.unobtrusive.ajax.nuspec"
       ]
     },
     "Microsoft.jQuery.Unobtrusive.Validation/3.2.11": {
@@ -1242,32 +1261,31 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
+      "Microsoft.jQuery.Unobtrusive.Ajax >= 3.2.6",
       "Microsoft.jQuery.Unobtrusive.Validation >= 3.2.11",
       "System.Data.SQLite >= 1.0.113.1",
       "System.Data.SqlClient >= 4.8.2"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Gyetvai D\\.nuget\\packages\\": {}
+    "C:\\Users\\gyetvaid\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Gyetvai D\\C#\\Projects\\Etkezde\\Etkezde\\Etkezde.csproj",
+      "projectUniqueName": "C:\\Denes\\c#\\Etkezde\\Etkezde.csproj",
       "projectName": "Etkezde",
-      "projectPath": "C:\\Users\\Gyetvai D\\C#\\Projects\\Etkezde\\Etkezde\\Etkezde.csproj",
-      "packagesPath": "C:\\Users\\Gyetvai D\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Gyetvai D\\C#\\Projects\\Etkezde\\Etkezde\\obj\\",
+      "projectPath": "C:\\Denes\\c#\\Etkezde\\Etkezde.csproj",
+      "packagesPath": "C:\\Users\\gyetvaid\\.nuget\\packages\\",
+      "outputPath": "C:\\Denes\\c#\\Etkezde\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Gyetvai D\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\gyetvaid\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -1284,6 +1302,10 @@
     "frameworks": {
       "netcoreapp3.1": {
         "dependencies": {
+          "Microsoft.jQuery.Unobtrusive.Ajax": {
+            "target": "Package",
+            "version": "[3.2.6, )"
+          },
           "Microsoft.jQuery.Unobtrusive.Validation": {
             "target": "Package",
             "version": "[3.2.11, )"
@@ -1307,12 +1329,6 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "downloadDependencies": [
-          {
-            "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[3.1.2, 3.1.2]"
-          }
-        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
@@ -1321,7 +1337,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.300\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.301\\RuntimeIdentifierGraph.json"
       }
     }
   }

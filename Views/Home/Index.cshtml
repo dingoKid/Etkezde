@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Etkezde";
+    Layout = "_Layout";
 }
 
 <div class="text-center">
@@ -41,7 +42,7 @@
                 <div class="form-group">
                     <form method="POST" asp-controller="Home" asp-action="SetId">
                             <strong><label asp-for="EmployeeId">Dolgozo azonosito</label></strong>
-                            <input asp-for="EmployeeId" name="empid" data-val="true" data-val-required="Add meg!" value="@Model.EmployeeName" class="form-control" />
+                            <input asp-for="EmployeeId" name="empid" data-val="true" data-val-required="Kotelezo mezo!" data-val-regex="Helytelen azonosito!" data-val-regex-pattern="\b([1-9]|[1-9][0-9])\b" value="@Model.EmployeeName" class="form-control" />
                             <span class="field-validation-valid" data-valmsg-for="empid" data-valmsg-replace="true"></span>
                             <button class ="btn btn-primary" type="submit">Kivalaszt</button>
                     </form>
@@ -50,20 +51,58 @@
         
             <div class="col-3">
                 <div class="form-group">
-                    <form method="POST" asp-controller="Home" asp-action="OnPostOrderItems">
+                    @using (Html.BeginForm("OnPostOrderItems", "Home"))
+                    {
+                        @Html.AntiForgeryToken();
+                        <strong>
+                            @Html.LabelFor(m => m.ItemName)                        
+                        </strong>
+                        @Html.TextBoxFor(m => m.ItemName, null, new { @class="form-control"})
+
+                        <strong>
+                            @Html.LabelFor(m => m.Quantity)
+                        </strong>
+                        @Html.TextBoxFor(m => m.Quantity, null, new { @size="2"})                        
+                        <button class ="btn btn-primary" type="submit">Bevitel</button>
+                        <br />
+                        @Html.ValidationMessageFor(m => m.ItemName)
+                        <br />
+                        @Html.ValidationMessageFor(m => m.Quantity)
+                    }
+                    <!-- <form method="POST" asp-controller="Home" asp-action="OnPostOrderItems">
                         <strong><label asp-for="ItemName">Termek</label></strong>
                         <input asp-for="ItemName" class="form-control"/>
-                        <span asp-validation-for="ItemName" class="text-danger"></span>
                         <strong><label asp-for="Quantity">Darab</label></strong>
-                        <input asp-for="Quantity" value="" size="2" />
-                        <span asp-validation-for="Quantity" class="text-danger"></span>
+                        <input asp-for="Quantity" value="" size="2" />                        
                         <button class ="btn btn-primary" type="submit">Bevitel</button>
-                    </form>
+                        <p><span asp-validation-for="ItemName" class="text-danger"></span>
+                        <span asp-validation-for="Quantity" class="text-danger"></span></p>
+                    </form>    -->
                 </div>
             </div>
 
             <div class="col-3">
                 <div class="form-group">
+                    @using (Html.BeginForm("OnPostModifyItem", "Home"))
+                    {
+                        @Html.AntiForgeryToken();
+                        <strong>
+                            @Html.LabelFor(m => m.ItemName)                        
+                        </strong>
+                        @Html.TextBoxFor(m => m.ItemName, null, new { @class="form-control"})
+
+                        <strong>
+                            @Html.LabelFor(m => m.Quantity)
+                        </strong>
+                        @Html.TextBoxFor(m => m.Quantity, null, new { @size="2"})   
+
+                        <button class ="btn btn-primary" type="submit">Csokkent</button>
+                        <br />
+                        @Html.ValidationMessageFor(m => m.ItemName)
+                        <br />
+                        @Html.ValidationMessageFor(m => m.Quantity)
+                    }
+                    <!-- 
                     <form method="POST" asp-controller="Home" asp-action="OnPostModifyItem">
                         <strong><label asp-for="ItemName">Termek</label></strong>
                         <input asp-for="ItemName" class="form-control" />
@@ -71,17 +110,33 @@
                         <input asp-for="Quantity" value="" size="2" />
                         
                         <button class ="btn btn-primary" type="submit">Csokkent</button>
-                    </form>
+                    </form> 
+                    -->
                 </div>
             </div>
 
             <div class="col-3">
                 <div class="form-group">
+                    @using (Html.BeginForm("OnPostDeleteItem", "Home"))
+                    {
+                        @Html.AntiForgeryToken();
+                        <strong>
+                            @Html.LabelFor(m => m.ItemName)                        
+                        </strong>
+                        @Html.TextBoxFor(m => m.ItemName, null, new { @class="form-control"})
+
+                        <button class ="btn btn-primary" type="submit">Torles</button>
+                        <br />
+                        @Html.ValidationMessageFor(m => m.ItemName)
+                    }
+                    <!--
                     <form method="POST" asp-controller="Home" asp-action="OnPostDeleteItem">
                         <strong><label asp-for="ItemName">Termek</label></strong>
-                        <input asp-for="ItemName" class="form-control"/>
+                        <input asp-for="ItemName" name="itemToDelete" data-val="true" data-val-required="Kotelezo mezo!" class="form-control"/>
+                        <span class="field-validation-valid" data-valmsg-for="itemToDelete" data-valmsg-replace="true"></span>
                         <button class ="btn btn-primary" type="submit">Torles</button>
                     </form>
+                    -->
                 </div>
             </div>
         </div>
@@ -110,8 +165,10 @@
                     </table>
                 </div>
             </div>
+
             <div class="col-5">
-                <div class="container">
+
+                <div id="basket" class="container">
                     <h3>Rendeles</h3>
                     <table class="table table-condensed" style="table-layout: fixed; width: 100%;">
                         <thead>

@@ -11,7 +11,8 @@ namespace Etkezde.Models
         public string EmployeeId { get; set; }
         public string EmployeeName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage="Add meg a termeket!")]
+        [Display(Name="Termek")]
         public string ItemName { 
             get
             {
@@ -24,7 +25,9 @@ namespace Etkezde.Models
             }
         }
 
-        [Required]
+        [Required(ErrorMessage="Add meg a mennyiseget!")]
+        [RegularExpression("[1-9]|[1-9][0-9]", ErrorMessage="Helytelen mennyiseg!")]
+        [Display(Name="Darab")]
         public string Quantity { get; set; }
 
         public void Clear()

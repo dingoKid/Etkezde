@@ -36,11 +36,12 @@ namespace Etkezde.Controllers
         //[HttpPost]
         public IActionResult SetId(int empid)
         {
-            if(empid < 7) 
+            if(!GetEmployeeIdsFromDatabase().Contains(empid) || (OrderItem.EmployeeId != empid.ToString() && _basket.Count != 0))
             {
-                OrderItem.EmployeeId = empid.ToString();
-                OrderItem.EmployeeName = _foodRepository.GetEmployeeName(int.Parse(OrderItem.EmployeeId));
+                return RedirectToAction("Index", OrderItem);
             }
+            OrderItem.EmployeeId = empid.ToString();
+            OrderItem.EmployeeName = _foodRepository.GetEmployeeName(empid);
             return RedirectToAction("Index", OrderItem);
         }
 
@@ -57,6 +58,7 @@ namespace Etkezde.Controllers
             return RedirectToAction("Index", OrderItem);
         }       
 
+        [HttpPost]
         public IActionResult OnPostOrderItems(OrderItemViewModel model)
         {
             if(!string.IsNullOrEmpty(OrderItem.EmployeeId) && GetMenuCardFromDatabase().ContainsKey(model.ItemName ??= "") && IsValidNumber(model.Quantity ??= "0"))
@@ -65,7 +67,7 @@ namespace Etkezde.Controllers
                 OrderItem.ItemName = model.ItemName;
                 OrderItem.Quantity = model.Quantity;
                 UpdateBasket(OrderItem.ItemName, int.Parse(OrderItem.Quantity));
-            }            
+            }
             return RedirectToAction("Index", OrderItem);
         }        
 
@@ -74,7 +76,7 @@ namespace Etkezde.Controllers
             if(_basket.Keys.Contains(model.ItemName ??= "") && IsValidNumber(model.Quantity ??= "0")) UpdateBasket(model.ItemName, int.Parse(model.Quantity)*(-1));
             return RedirectToAction("Index", OrderItem);
         }
-
+        
         public IActionResult OnPostDeleteItem(OrderItemViewModel model)
         {
             if(_basket.Keys.Contains(model.ItemName ??= "")) _basket.Remove(model.ItemName);

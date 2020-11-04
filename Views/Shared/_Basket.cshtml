@@ -1,0 +1,25 @@
+
+
+<h3>Rendeles</h3>
+<table class="table table-condensed" style="table-layout: fixed; width: 100%;">
+    <thead>
+        <tr>
+            <th>Termek</th>
+            <th>Mennyiseg</th>
+        </tr>
+    </thead>
+    <tbody>
+    @if(ViewBag.Basket != null)
+    {
+        foreach (KeyValuePair<string, int> item in ViewBag.Basket)
+        {
+            <tr>
+                <td>@item.Key</td>
+                <td>@item.Value</td>
+            </tr>
+        }
+    }
+    </tbody>
+</table>
+<input class="btn btn-success" type="button" value="Fizet" onclick="location.href='@Url.Action("OnPostFinishShopping", "Home")'" />
+<input class="btn btn-danger" type="button" value="Torol" onclick="location.href='@Url.Action("OnPostClearBasket", "Home")'" />
