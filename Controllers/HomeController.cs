@@ -62,13 +62,15 @@ namespace Etkezde.Controllers
         public IActionResult OnPostOrderItems(OrderItemViewModel model)
         {
             if(!string.IsNullOrEmpty(OrderItem.EmployeeId) && GetMenuCardFromDatabase().ContainsKey(model.ItemName ??= "") && IsValidNumber(model.Quantity ??= "0"))
-            {
-                ViewBag.Basket = _basket;
+            {                
                 OrderItem.ItemName = model.ItemName;
                 OrderItem.Quantity = model.Quantity;
                 UpdateBasket(OrderItem.ItemName, int.Parse(OrderItem.Quantity));
             }
-            return RedirectToAction("Index", OrderItem);
+            TempData["basket"] = _basket;
+            return new PartialViewResult {
+                ViewName = "_Basket"
+            };
         }        
 
         public IActionResult OnPostModifyItem(OrderItemViewModel model)

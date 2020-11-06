@@ -1,6 +1,3 @@
-
-
-<h3>Rendeles</h3>
 <table class="table table-condensed" style="table-layout: fixed; width: 100%;">
     <thead>
         <tr>
@@ -9,9 +6,9 @@
         </tr>
     </thead>
     <tbody>
-    @if(ViewBag.Basket != null)
+    @if(TempData["basket"] != null)
     {
-        foreach (KeyValuePair<string, int> item in ViewBag.Basket)
+        foreach (KeyValuePair<string, int> item in (Dictionary<string, int>) TempData["basket"])
         {
             <tr>
                 <td>@item.Key</td>
