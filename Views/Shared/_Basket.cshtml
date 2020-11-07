@@ -1,3 +1,5 @@
+@if(((Dictionary<string, int>) TempData["basket"]).Count() != 0)
+{
 <table class="table table-condensed" style="table-layout: fixed; width: 100%;">
     <thead>
         <tr>
@@ -20,3 +22,4 @@
 </table>
 <input class="btn btn-success" type="button" value="Fizet" onclick="location.href='@Url.Action("OnPostFinishShopping", "Home")'" />
 <input class="btn btn-danger" type="button" value="Torol" onclick="location.href='@Url.Action("OnPostClearBasket", "Home")'" />
+}

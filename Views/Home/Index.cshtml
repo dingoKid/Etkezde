@@ -85,6 +85,7 @@
 
             <div class="col-3">
                 <div class="form-group">
+                    <!--
                     @using (Html.BeginForm("OnPostModifyItem", "Home"))
                     {
                         @Html.AntiForgeryToken();
@@ -104,21 +105,24 @@
                         <br />
                         @Html.ValidationMessageFor(m => m.Quantity)
                     }
-                    <!-- 
-                    <form method="POST" asp-controller="Home" asp-action="OnPostModifyItem">
+                    -->
+                     
+                    <form method="POST" data-ajax="true" data-ajax-url="/Home/OnPostModifyItem" data-ajax-update="#basket">
                         <strong><label asp-for="ItemName">Termek</label></strong>
                         <input asp-for="ItemName" class="form-control" />
                         <strong><label asp-for="Quantity">Darab</label></strong>
-                        <input asp-for="Quantity" value="" size="2" />
-                        
+                        <input asp-for="Quantity" value="" size="2" />                        
                         <button class ="btn btn-primary" type="submit">Csokkent</button>
+                        <span asp-validation-for="ItemName" class="text-danger"></span><br/>
+                        <span asp-validation-for="Quantity" class="text-danger"></span>
                     </form> 
-                    -->
+                    
                 </div>
             </div>
 
             <div class="col-3">
                 <div class="form-group">
+                    <!--
                     @using (Html.BeginForm("OnPostDeleteItem", "Home"))
                     {
                         @Html.AntiForgeryToken();
@@ -131,14 +135,13 @@
                         <br />
                         @Html.ValidationMessageFor(m => m.ItemName)
                     }
-                    <!--
-                    <form method="POST" asp-controller="Home" asp-action="OnPostDeleteItem">
+                    -->
+                    <form method="POST" data-ajax="true" data-ajax-url="/Home/OnPostDeleteItem" data-ajax-update="#basket">
                         <strong><label asp-for="ItemName">Termek</label></strong>
-                        <input asp-for="ItemName" name="itemToDelete" data-val="true" data-val-required="Kotelezo mezo!" class="form-control"/>
-                        <span class="field-validation-valid" data-valmsg-for="itemToDelete" data-valmsg-replace="true"></span>
+                        <input asp-for="ItemName" class="form-control"/>
+                        <span asp-validation-for="ItemName" class="text-danger"></span>
                         <button class ="btn btn-primary" type="submit">Torles</button>
                     </form>
-                    -->
                 </div>
             </div>
         </div>

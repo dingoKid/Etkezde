@@ -20,7 +20,11 @@ namespace Etkezde.Models
             }
             set 
             {
-                if(!string.IsNullOrEmpty(value)) _itemName = char.ToUpper(value[0]) + value.Substring(1);
+                if(!string.IsNullOrEmpty(value)) 
+                {
+                    _itemName = value.ToLower();
+                    _itemName = char.ToUpper(_itemName[0]) + _itemName.Substring(1);
+                }
                 else _itemName = null;
             }
         }

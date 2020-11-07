@@ -75,14 +75,26 @@ namespace Etkezde.Controllers
 
         public IActionResult OnPostModifyItem(OrderItemViewModel model)
         {
-            if(_basket.Keys.Contains(model.ItemName ??= "") && IsValidNumber(model.Quantity ??= "0")) UpdateBasket(model.ItemName, int.Parse(model.Quantity)*(-1));
-            return RedirectToAction("Index", OrderItem);
+            if(_basket.Keys.Contains(model.ItemName ??= "") && IsValidNumber(model.Quantity ??= "0")) 
+            {
+                UpdateBasket(model.ItemName, int.Parse(model.Quantity)*(-1));
+            }
+            TempData["basket"] = _basket;
+            return new PartialViewResult {
+                ViewName = "_Basket"
+            };
         }
         
         public IActionResult OnPostDeleteItem(OrderItemViewModel model)
         {
-            if(_basket.Keys.Contains(model.ItemName ??= "")) _basket.Remove(model.ItemName);
-            return RedirectToAction("Index", OrderItem);
+            if(_basket.Keys.Contains(model.ItemName ??= "")) 
+            {   
+                _basket.Remove(model.ItemName);
+            }
+            TempData["basket"] = _basket;
+            return new PartialViewResult {
+                ViewName = "_Basket"
+            };
         }
 
         public IActionResult OnPostFinishShopping()
