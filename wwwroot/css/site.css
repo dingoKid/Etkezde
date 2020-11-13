@@ -37,6 +37,7 @@ a {
 html {
   font-size: 14px;
 }
+
 @media (min-width: 768px) {
   html {
     font-size: 16px;
@@ -66,11 +67,14 @@ html {
 
 body {
   margin-bottom: 60px;
+  background-color: #e9ecef;
 }
+
 .footer {
   position: absolute;
   bottom: 0;
   width: 100%;
   white-space: nowrap;
   line-height: 60px; 
+  background-color: #373a3d;
 }
